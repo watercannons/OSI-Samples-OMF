@@ -10,20 +10,23 @@ using System.IO.Compression;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Text;
+using System.Diagnostics;
 
 namespace OMF_API
 {
     public class Program
     {
+
+        // Pass the handler to httpclient(from you are calling api)
         private static readonly HttpClient client = new HttpClient();
         // Set this to zip data going to endpoints
         static bool zip = false;
 
         // Set this to indicate if the data is going to PI or OCS.  This changes some of the steps taken in the program due to the endpoints accepting different messages.
-        static bool sendingToOCS = true;
+        static bool sendingToOCS = false;
 
         // set this to try to force the above bool, otherwise it is determined by what is found in appsettins.json file
-        static bool sendingToOCSBoolforced = false;
+        static bool sendingToOCSBoolforced = true;
 
         static bool VERIFY_SSL = true;
 
@@ -83,6 +86,13 @@ namespace OMF_API
 
             try
             {
+                //temporary SSL bypass
+                ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, errors) =>
+                {
+                    if (true) return true;
+                    return errors == System.Net.Security.SslPolicyErrors.None;
+                };
+
                 //bring in configuration.  Note storing credentials in plain text is not secure or advised
                 IConfigurationBuilder builder = new ConfigurationBuilder()
                  .SetBasePath(Directory.GetCurrentDirectory())
@@ -144,10 +154,19 @@ namespace OMF_API
                 //step 3- 8  are located in here.  
                 sendTypesAndContainers();
 
+                Stopwatch stopwatch = new Stopwatch();
+
                 int count = 0;
+                int countLimit = 100;
                 string value ="";
-                while (count == 0  || ((!test) && count < 2))
+
+                while (count == 0  || ((!test) && count < countLimit))
                 {
+                    if(count == 1)
+                    {
+                        stopwatch.Start();
+                    }
+
                     //step 9 
                     var val = create_data_values_for_first_dynamic_type("Container1");
                     value = val;
@@ -158,10 +177,15 @@ namespace OMF_API
                     sendValue("data", create_data_values_for_third_dynamic_type("Container4"));
                     if (sendingToOCS)
                         sendValue("data", create_data_values_for_NonTimeStampIndexAndMultiIndex_type("Container5", "Container6"));
-                    Thread.Sleep(1000);
+                    //Thread.Sleep(100);
                     count += 1;
+                    Console.WriteLine("Counter: " + count);
                 }
-                CheckValues(value);
+                //CheckValues(value);
+
+                stopwatch.Stop();
+
+                Console.WriteLine("Time is: " + stopwatch.Elapsed);
 
             }
             catch (Exception ex)
@@ -195,7 +219,7 @@ namespace OMF_API
                 if (toThrow != null)
                     throw toThrow;
             }
-            
+
             return success;
         }
         
@@ -206,7 +230,7 @@ namespace OMF_API
         {
             Console.WriteLine("Check Deletes");
             Console.WriteLine("Letting OMF get to data store");
-            Thread.Sleep(10000);
+            //Thread.Sleep(1000);
             bool success = false;
             if (sendingToOCS)
             {
@@ -223,6 +247,7 @@ namespace OMF_API
             }
             else
             {
+                /*
                 string json1 = checkValue(checkBase + $"/dataservers?name=" + pidataserver);
                 JObject result = JsonConvert.DeserializeObject<JObject>(json1);
                 string pointsURL  = result.Value<JObject>("Links").Value<String>("Points");
@@ -240,6 +265,7 @@ namespace OMF_API
 
                 if (!success)
                     throw new Exception("Container was found.");
+                */
             }
         }
 
@@ -273,7 +299,7 @@ namespace OMF_API
         {
             Console.WriteLine("Checks");
             Console.WriteLine("Letting OMF get to data store");
-            Thread.Sleep(10000);
+            //Thread.Sleep(1000);
             
             if (sendingToOCS)
             {
@@ -293,6 +319,7 @@ namespace OMF_API
             }
             else
             {
+                /*
                 string json1 = checkValue(checkBase + $"/dataservers?name=" + pidataserver);
                 JObject result = JsonConvert.DeserializeObject<JObject>(json1);
                 string pointsURL  = result.Value<JObject>("Links").Value<String>("Points");
@@ -308,6 +335,7 @@ namespace OMF_API
 
                 if (valueJ[0]["values"][0]["IntegerProperty"].ToString() != jsonJ["Value"].ToString())
                     throw new Exception("Returned value is not expected.");
+                */
             }
         }
 
@@ -1052,7 +1080,6 @@ namespace OMF_API
         private static async Task<string> Send(HttpRequestMessage request)
         {
             var response = await client.SendAsync(request);
-
             var responseString = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
                 throw new Exception($"Error sending OMF response code:{response.StatusCode}.  Response {responseString}");
