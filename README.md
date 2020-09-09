@@ -1,3 +1,13 @@
+#Test code for performance metrics
+
+This contains code modified from the OMF Samples (forked from https://github.com/osisoft/OSI-Samples-OMF). Purpose is to test the performance difference between Pi Web API with performance metrics code and non-performance metrics code.
+
+The modified code is located in `basic_samples/OMF_API/CSharp/OMF_API/Program.cs`. You will need to modify the `appsettings.placeholder.json` to `appsettings.json` for the code to work. All that's been modified is a SSL error bypass, and a
+stopwatch to keep track of code execution time.
+
+(More details will be included in the README in the folder of the modified code)
+
+
 # OMF Samples
 
 The OSIsoft Message Format ([OMF](https://pisquare.osisoft.com/community/developers-club/omf)) defines a set of message headers and bodies that can be used to generate messages for ingestion into a compliant back-end system. The PI System and OCS both have a compliant OMF receiving endpoint.

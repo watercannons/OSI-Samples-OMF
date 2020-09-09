@@ -1,3 +1,9 @@
+# Performance metrics modifications
+
+For `appsettings.placeholder.json`, change the name to `appsettings.json`, replace `resource` with the name of your server, like `restdemo`, username and password is your windows login credentials (you don't need to do osi\username)
+
+For `Program.cs`, in the method `runMain`, change the variable `counterLimit` to modify the number of requests you want to make. Multiply `counterLimit` by 4 to get the actual # of requests being sent to the server
+
 # Building a .NET sample to send OMF to PI or OCS
 
 | OCS Test Status                                                                                                                                                                                                                                               | PI Test Status                                                                                                                                                                                                                                                      |
