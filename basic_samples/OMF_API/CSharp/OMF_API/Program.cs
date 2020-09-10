@@ -63,7 +63,7 @@ namespace OMF_API
 
         static void Main(string[] args)
         {
-            runMain();
+            Console.WriteLine(runMain());
         }
         
         /// <summary>
@@ -71,7 +71,7 @@ namespace OMF_API
         /// </summary>
         /// <param name="test">Whether this is a test or not</param>
         /// <returns></returns>
-        public static bool runMain(bool test= false)
+        public static TimeSpan runMain(bool test= false)
         {
             // Hold on to these in case there is a failure in deleting
 
@@ -83,6 +83,8 @@ namespace OMF_API
             Console.WriteLine("888     888 888  Y8P  888 888                 d88P   888 888         888   ");
             Console.WriteLine("Y88b. .d88P 888   \"   888 888                d8888888888 888         888   ");
             Console.WriteLine(" \"Y88888P\"  888       888 888      88888888 d88P     888 888       8888888 ");
+
+            TimeSpan timeTaken = new TimeSpan();
 
             try
             {
@@ -179,13 +181,14 @@ namespace OMF_API
                         sendValue("data", create_data_values_for_NonTimeStampIndexAndMultiIndex_type("Container5", "Container6"));
                     //Thread.Sleep(100);
                     count += 1;
-                    Console.WriteLine("Counter: " + count);
+                    Console.WriteLine("Counter Non PerformanceMetrics: " + count);
                 }
                 //CheckValues(value);
 
                 stopwatch.Stop();
 
-                Console.WriteLine("Time is: " + stopwatch.Elapsed);
+                Console.WriteLine("Time for non perf metrics is: " + stopwatch.Elapsed);
+                timeTaken = stopwatch.Elapsed;
 
             }
             catch (Exception ex)
@@ -220,7 +223,7 @@ namespace OMF_API
                     throw toThrow;
             }
 
-            return success;
+            return timeTaken;
         }
         
         /// <summary>
