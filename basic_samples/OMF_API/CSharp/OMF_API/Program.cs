@@ -181,13 +181,13 @@ namespace OMF_API
                         sendValue("data", create_data_values_for_NonTimeStampIndexAndMultiIndex_type("Container5", "Container6"));
                     //Thread.Sleep(100);
                     count += 1;
-                    Console.WriteLine("Counter Non PerformanceMetrics: " + count);
+                    Console.WriteLine("Counter PerformanceMetrics: " + count);
                 }
                 //CheckValues(value);
 
                 stopwatch.Stop();
 
-                Console.WriteLine("Time for non perf metrics is: " + stopwatch.Elapsed);
+                Console.WriteLine("Time for Perf metrics is: " + stopwatch.Elapsed);
                 timeTaken = stopwatch.Elapsed;
 
             }
