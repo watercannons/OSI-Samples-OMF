@@ -159,7 +159,7 @@ namespace OMF_API
                 Stopwatch stopwatch = new Stopwatch();
 
                 int count = 0;
-                int countLimit = 100;
+                int countLimit = 1000;
                 string value ="";
 
                 while (count == 0  || ((!test) && count < countLimit))

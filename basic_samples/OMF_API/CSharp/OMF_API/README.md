@@ -4,7 +4,8 @@ For `appsettings.placeholder.json`, change the name to `appsettings.json`, repla
 
 For `Program.cs`, in the method `runMain`, change the variable `counterLimit` to modify the number of requests you want to make. Multiply `counterLimit` by 4 to get the actual # of requests being sent to the server
 
-There's a variable called `Resource2` in `appsettings.json` that points to a server where the Pi Web API build could be modified, this isn't necessary, because you could just change the `Resource` field instead
+There's a variable called `Resource2` in `appsettings.json` that points to a server where the Pi Web API build could be modified, this isn't necessary, because you could just change the `Resource` field instead. Also, `PerfHostWebAPI1`
+runs very slowly and crashes, it might be better to just switch between pre-performance metrics and post-performance metrics builds
 
 I also apologize for adding really badly formatted code into this existing sample code, there's probably several comments that I used for debugging that I never removed and some horrible variable naming
 
