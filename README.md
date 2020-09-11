@@ -5,8 +5,14 @@ This contains code modified from the OMF Samples (forked from https://github.com
 The modified code is located in `basic_samples/OMF_API/CSharp/OMF_API/Program.cs`. You will need to modify the `appsettings.placeholder.json` to `appsettings.json` for the code to work. All that's been modified is a SSL error bypass, and a
 stopwatch to keep track of code execution time.
 
-(More details will be included in the README in the folder of the modified code)
+Brief instructions:
 
+1. The test code is located in `basic_samples/OMF_API/CSharp/OMF_API/Program.cs`
+2. Make sure you change `appsettings.placeholder.json` to `appsettings.json`, use your windows login credentials for username and password in place of the stub
+3. `Resource` in `appsettings.json` is the link to your server that you're testing, change it to whatever server you're testing on
+4. The `runMain` method acutually runs the code. There's a variable called `countLimit` that is the number of requests you run. This number is not the actual # of requests
+being send to the server, the actual # is `countLimit` * 8
+5. When it finishes, it will print a timestamp of how long the test took
 
 # OMF Samples
 
