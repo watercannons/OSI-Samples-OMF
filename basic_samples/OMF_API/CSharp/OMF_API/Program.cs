@@ -183,7 +183,6 @@ namespace OMF_API
                     count += 1;
                     Console.WriteLine("Counter PerformanceMetrics: " + count);
                 }
-                //CheckValues(value);
 
                 stopwatch.Stop();
 
